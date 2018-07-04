@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hfut.ec.bank.mapper.AccountDao">
+
+
+    <insert id="createAccount" useGeneratedKeys="true" parameterType="com.hfut.ec.bank.entity.User" keyProperty="id" keyColumn="id">
+
+         insert into account(typeId,userId,password,createTime,activeTime,accountBank,isAutomateDeposit) values (#{typeId},#{userId},#{password},now(),now(),#{accountBank},#{isAutomateDeposit})
+     </insert>
+    <update id="deleteAccount" parameterType="com.hfut.ec.bank.entity.Account">
+        update account set isDelete=1 where id=#{id} and password=#{password}
+    </update>
+
+    <update id="deleteAccountWithoutPassword" >
+        update account set isDelete=1 where id=#{id}
+    </update>
+
+    <update id="depoist" parameterType="com.hfut.ec.bank.entity.Account">
+          UPDATE account SET principal=principal+#{principal} WHERE id=#{id}
+    </update>
+
+    <select id="findAccountById"  resultType="com.hfut.ec.bank.entity.Account">
+        select * from account where id=#{id}
+    </select>
+
+    <resultMap id="AccountWithUser" type="com.hfut.ec.bank.entity.User">
+        <id property="id" column="u_id" />
+
+        <collection property="accounts" column="u_id" javaType="ArrayList" ofType="com.hfut.ec.bank.entity.Account" >
+            <id property="id" column="id"/>
+        </collection>
+        <!--<association property="user" javaType="com.hfut.ec.bank.entity.User">-->
+            <!--<id property="id" column="uid"/>-->
+
+        <!--</association>-->
+    </resultMap>
+
+    <select id="findAccountByIDNumber"  resultMap="AccountWithUser">
+        select a.*,u.`id` u_id,u.`address`,u.`credit`,u.`IDNumber`,u.`name`,u.`sex`,u.`phoneNumber` from account a,user u where u.IDNumber=#{IDNumber} and u.id=a.userId
+    </select>
+
+     <select id="checkAccount"  resultType="com.hfut.ec.bank.entity.Account">
+        select * from account where id=#{id} and password=#{password}
+    </select>
+    <update id="transferIn" >
+         UPDATE account SET principal=principal+#{principal} WHERE id=#{id}
+    </update>
+    <update id="transferOut" >
+         UPDATE account SET principal=principal-#{principal} WHERE id=#{id}
+    </update>
+
+    <update id="updateMoney" >
+        update account set principal=#{principal} where id=#{id}
+    </update>
+    
+
+
+
+    <!--<select id="queryAreaById" resultType="com.imoc.demo.entity.Area">-->
+
+    <!--select * from tb_area where area_id=#{areaId}-->
+    <!--</select>-->
+
+    <!--<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"-->
+    <!--keyColumn="area_id" parameterType="com.imoc.demo.entity.Area">-->
+
+    <!--insert  into  tb_area values (#{areaId},#{areaName},#{priority},#{createTime},#{lastEditTime})-->
+    <!--</insert>-->
+    <!---->
+    <!--<update id="updateArea" parameterType="com.imoc.demo.entity.Area">-->
+
+    <!--update tb_area-->
+    <!--<set>-->
+    <!--<if test="areaName!=null">area_name=#{areaName},</if>-->
+    <!--<if test="priority!=null">priority=#{priority},</if>-->
+    <!--<if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>-->
+    <!--</set>-->
+    <!--<where>-->
+    <!--area_id=#{areaId}-->
+    <!--</where>-->
+    <!--</update>-->
+
+    <!--<delete id="deleteArea" >-->
+
+    <!--delete from tb_area-->
+    <!--<where>-->
+    <!--area_id=#{areaId}-->
+    <!--</where>-->
+    <!--</delete>-->
+</mapper>

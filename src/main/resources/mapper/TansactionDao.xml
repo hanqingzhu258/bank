@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hfut.ec.bank.mapper.TransactionDao">
+
+
+    <!--<insert id="create" useGeneratedKeys="true" parameterType="com.hfut.ec.bank.entity.User" keyProperty="id" keyColumn="id">-->
+
+    <!--insert into user(name,sex,IDNumber,phoneNumber,address) values (#{name},#{sex},#{IDNumber},#{phoneNumber},#{address})-->
+    <!--</insert>-->
+    <select id="findTransaction" resultType="com.hfut.ec.bank.entity.Transaction">
+        SELECT * FROM type WHERE id=#{id}
+    </select>
+    
+    <insert id="createTransaction" parameterType="com.hfut.ec.bank.entity.Transaction" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into transaction(userId,productId,inAccount,money,preSaveTime,createTime,state,isFinished)
+        values (#{userId},#{productId},#{inAccount},#{money},#{preSaveTime},now(),#{state},#{isFinished})
+    </insert>
+
+    <insert id="withdrawTransaction" parameterType="com.hfut.ec.bank.entity.Transaction" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into transaction(inAccount,outAccount,money,createTime,withdrawTime,state,isFinished)
+        values (#{inAccount},#{outAccount},#{money},now(),now(),0,0)
+    </insert>
+
+    <update id="updateTransaction" parameterType="com.hfut.ec.bank.entity.Transaction">
+        update transaction set isFinished=1,state=1 where inAccount=#{inAccount} and isFinished=0
+    </update>
+
+    <select id="selectDeposit" resultType="com.hfut.ec.bank.entity.Transaction">
+        select * from transaction where inAccount=#{inAccount} and isFinished=0
+    </select>
+
+    <insert id="withdrawTransactionByTransfer" parameterType="com.hfut.ec.bank.entity.Transaction" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into transaction(productId,inAccount,outAccount,money,preSaveTime,createTime,state,isFinished)
+        values (#{productId},#{inAccount},#{outAccount},#{money},#{preSaveTime},now(),now(),0,0)
+    </insert>
+
+
+</mapper>

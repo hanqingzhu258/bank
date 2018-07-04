@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+         <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hfut.ec.bank.mapper.AdminDao">
+
+   <select id="login" resultType="com.hfut.ec.bank.entity.Admin" parameterType="com.hfut.ec.bank.entity.Admin">
+       select `id`,`number`,`password`,`role`  from admin where `number`=#{number} and `password`=#{password} and `role`=#{role}
+   </select>
+
+    <!--<select id="queryAreaById" resultType="com.imoc.demo.entity.Area">-->
+
+        <!--select * from tb_area where area_id=#{areaId}-->
+    <!--</select>-->
+
+    <!--<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"-->
+            <!--keyColumn="area_id" parameterType="com.imoc.demo.entity.Area">-->
+
+        <!--insert  into  tb_area values (#{areaId},#{areaName},#{priority},#{createTime},#{lastEditTime})-->
+    <!--</insert>-->
+    <!---->
+    <!--<update id="updateArea" parameterType="com.imoc.demo.entity.Area">-->
+
+        <!--update tb_area-->
+        <!--<set>-->
+            <!--<if test="areaName!=null">area_name=#{areaName},</if>-->
+            <!--<if test="priority!=null">priority=#{priority},</if>-->
+            <!--<if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>-->
+        <!--</set>-->
+        <!--<where>-->
+                <!--area_id=#{areaId}-->
+        <!--</where>-->
+    <!--</update>-->
+
+    <!--<delete id="deleteArea" >-->
+
+        <!--delete from tb_area-->
+        <!--<where>-->
+            <!--area_id=#{areaId}-->
+        <!--</where>-->
+    <!--</delete>-->
+</mapper>
