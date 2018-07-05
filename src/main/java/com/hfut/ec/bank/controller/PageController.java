@@ -27,7 +27,7 @@ public class PageController {
 
     @GetMapping(value = "/index")
     public String index(){
-        return "/index";
+        return "index";
     }
 
     @GetMapping(value = "/login")
@@ -52,7 +52,7 @@ public class PageController {
 
     @GetMapping(value = "/lumpPartialWithdraw")
     public String lumpPartialWithdraw(){
-        return "lumpPartialWithdraw";
+        return "lumpPartialWithDraw";
     }
 
     @GetMapping(value = "/queryUser")
